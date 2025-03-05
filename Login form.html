@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login & Registration Form</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+    /* Basic styling */
+body {
+    font-family: 'Arial', sans-serif;
+    background-image: url('https://images6.alphacoders.com/345/thumb-1920-345897.jpg');
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 98vh;
+    color: #17b38c;
+}
+
+    h2 {
+    margin-top: 10%;
+}
+
+/* Navigation styles */
+nav {
+    position: absolute;
+    top: 30px;
+    left: 30px;
+    right: 30px;
+    display: flex;
+    justify-content: center;
+    gap: 60px;
+    padding: 0 50px;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    background: rgba(255, 255, 255, 0.1);
+    font-weight: bold;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+    padding: 10px;
+    transition: color 0.5s, transform 0.6s;
+}
+
+nav a:hover {
+    color: white;
+    transform: scale(1.2);
+}
+
+/* Logo container */
+.logo-container {
+    position: absolute;
+    left: 50px; /* Fixed positioning */
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.logo {
+    width: 85px; /* logo size */
+    height: auto;
+}
+
+/* Form container */
+.container {
+    background: rgba(10, 9, 9, 0.8);
+    border-radius: 25px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+    width: 410px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Toggle buttons */
+.form-toggle {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.toggle-button {
+    flex: 1;
+    border: none;
+    background: rgba(68, 68, 68, 0.6);
+    color: white;
+    padding: 12px 15px;
+    border-radius: 5px;
+    transition: background 0.3s, transform 0.3s ease-in-out;
+    margin: 0 5px;
+    font-weight: bold;
+}
+
+.toggle-button:hover {
+    background: #666;
+    transform: scale(1.05);
+}
+
+/* Form display */
+.form {
+    display: none;
+    flex-direction: column;
+    width: 100%;
+    margin-top: -1px;
+    opacity: 0;
+    transform: translateY(-20px);
+    transition: opacity 0.4s ease-in-out, transform 0.4s ease-in-out;
+}
+
+/* Active form display */
+#loginForm {
+    display: flex;
+    transform: translateY(0.5);
+}
+
+/* Input styling */
+.form input {
+    margin: 10px 0;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 16px;
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.form input:focus {
+    border-color: #00ff55;
+    outline: none;
+    box-shadow: 0 0 8px rgba(0, 245, 73, 0.5);
+    transform: scale(1.02);
+}
+
+    /* Active form */
+.form.active {
+    opacity: 1;
+    animation: fadeInOut 0.9s forwards; /* Apply fade in/out animation */
+}
+
+/* Fade in/out animation */
+@keyframes fadeInOut {
+    0% {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+    50% {
+        opacity: 1;
+        transform: scale(1.02);
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+/* Show password */
+.show-password {
+    display: flex;
+    align-items: center;
+    margin: 10px 0;
+    color: #fff;
+}
+
+.eye-icon {
+    cursor: pointer;
+    margin-left: 10px;
+}
+
+/* Button styling */
+.form button {
+    padding: 10px;
+    border: none;
+    background: #28a744;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.1s, transform 0.1s ease-in-out, box-shadow 0.3s;
+    font-size: 16px;
+    margin-top: 10px;
+}
+
+.form button:hover {
+    background: #218837;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+}
+
+/* Modal styling */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.7);
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background: rgba(10, 9, 9, 0.9);
+    padding: 20px;
+    border-radius: 10px;
+    width: 300px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+}
+
+/* Message styling */
+.message {
+    color: green;
+    display: none;
+    font-weight: bold;
+}
+
+/* Link styling */
+.link-style {
+    color: #00ff55;
+    cursor: pointer;
+    text-decoration: underline;
+    margin-top: 10px;
+}
+
+.link-style:hover {
+    color: #4e525e;
+}
+    </style>
+</head>
+  <body>
+    <nav>
+        <div class="logo-container">
+            <img src="https://media.tenor.com/ctfKGqckPcMAAAAM/hahahaha-nikon.gif" alt="Logo" class="logo">
+            <p><strong>My Website</strong></p>
+        </div>
+        <a href="#">Home</a>
+        <a href="#">Service</a>
+        <a href="#">About</a>
+        <a href="#">Contact</a>
+    </nav>
+
+    <div class="container">
+        <div class="form-toggle">
+            <button id="loginBtn" class="toggle-button">Login</button>
+            <button id="registerBtn" class="toggle-button">Register</button>
+        </div>
+
+<!-- Registration Form -->
+<form id="registerForm" class="form active" method="POST" action="">
+    <h2>Register</h2>
+    <input type="text" name="registerUsername" placeholder="Username" required>
+    <input type="email" name="registerEmail" placeholder="Email" required>
+    <div class="show-password">
+        <input type="password" id="registerPassword" placeholder="Password" required>
+        <i class="eye-icon fas fa-eye" id="toggleRegisterPassword" aria-label="Show password" onclick="togglePasswordVisibility('registerPassword', 'toggleRegisterPassword')"></i>
+    </div>
+    <button type="submit" name="register">Register</button>
+    <p>Already have an account? <span id="loginLnk" class="link-style">Log in here</span></p>
+</form>
+
+<!-- Login Form -->
+<form id="loginForm" class="form active" method="POST" action="">
+    <h2>Login</h2>
+    <input type="email" name="loginEmail" placeholder="Email" required>
+    <div class="show-password">
+        <input type="password" id="loginPassword" placeholder="Password" required>
+        <i class="eye-icon fas fa-eye" id="toggleLoginPassword" aria-label="Show password" onclick="togglePasswordVisibility('loginPassword', 'toggleLoginPassword')"></i>
+    </div>
+    <button type="submit" name="login">Login</button>
+    <button type="button" id="forgotPasswordBtn" class="link-style">Forgot Password?</button>
+    <p>Don't have an account? <span id="registerLnk" class="link-style">Sign up here</span></p>
+</form>
+
+
+        <!-- Modal for forgot password -->
+    <div id="forgotPasswordModal" class="modal">
+        <div class="modal-content">
+            <h3>Forgot Password</h3>
+            <p>Enter your email address. A link will be sent to create a new password.</p>
+            <input type="email" id="forgotEmail" placeholder="Email" required>
+            <button id="sendResetLinkBtn">Send Reset Link</button>
+            <button id="closeModal">Close</button>
+        </div>
+    </div>
+    <script>
+        const toggleForms = (hideForm, showForm) => {
+    hideForm.style.transition = 'opacity 0s';
+    hideForm.style.opacity = '0';
+    setTimeout(() => {
+        hideForm.style.display = 'none';
+        showForm.style.display = 'flex';
+        showForm.style.opacity = '0';
+    }, 0);
+};
+
+document.getElementById('loginBtn').onclick = () => toggleForms(document.getElementById('registerForm'), document.getElementById('loginForm'));
+document.getElementById('registerBtn').onclick = () => toggleForms(document.getElementById('loginForm'), document.getElementById('registerForm'));
+
+// Link to switch to login from register
+document.getElementById('loginLnk').onclick = () => toggleForms(document.getElementById('registerForm'), document.getElementById('loginForm'));
+
+// Link to switch to register from login
+document.getElementById('registerLnk').onclick = () => toggleForms(document.getElementById('loginForm'), document.getElementById('registerForm'));
+
+// Forgot password modal
+document.getElementById('forgotPasswordBtn').onclick = () => {
+    document.getElementById('forgotPasswordModal').style.display = 'flex';
+};
+
+document.getElementById('closeModal').onclick = () => {
+    document.getElementById('forgotPasswordModal').style.display = 'none';
+    document.getElementById('forgotEmail').value = ''; // Clear email input
+};
+
+document.getElementById('sendResetLinkBtn').onclick = () => {
+    const email = document.getElementById('forgotEmail').value;
+    // Sending email 
+    document.getElementById('forgotPasswordModal').style.display = 'none';
+    const messageParagraph = document.createElement('p');
+    messageParagraph.textContent = `Successful send to ${email}`;
+    messageParagraph.className = 'message';
+    document.getElementById('loginForm').appendChild(messageParagraph);
+    messageParagraph.style.display = 'block';
+};
+
+// Message successful
+function validateLogin() {
+    const email = document.getElementById('loginEmail').value;
+    const messageParagraph = document.getElementById('loginMessage');
+    messageParagraph.textContent = `Login successful`;
+    messageParagraph.style.display = 'block';
+}
+
+function validateRegister() {
+    const username = document.getElementById('registerUsername').value;
+    const messageParagraph = document.getElementById('registerMessage');
+    messageParagraph.textContent = `Registration successful`;
+    messageParagraph.style.display = 'block';
+}
+
+// Toggle password visibility
+const togglePasswordVisibility = (inputId, iconId) => {
+const input = document.getElementById(inputId);
+const icon = document.getElementById(iconId);
+input.type = input.type === 'password' ? 'text' : 'password';
+icon.classList.toggle('fa-eye-slash');
+};
+
+document.getElementById('toggleLoginPassword').onclick = () => togglePasswordVisibility('loginPassword', 'toggleLoginPassword');
+document.getElementById('toggleRegisterPassword').onclick = () => togglePasswordVisibility('registerPassword', 'toggleRegisterPassword');
+        </script>
+</body>
+</html>
